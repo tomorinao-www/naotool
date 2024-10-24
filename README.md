@@ -14,7 +14,7 @@
 
 _✨ 🍬A packge of utils or tools keeps Python sweet. 让 py 保持甜甜的 ✨_
 
-<a href="./LICENSE">
+<a href="https://github.com/tomorinao-www/naotool/blob/main/LICENSE">
   <img src="https://img.shields.io/github/license/tomorinao-www/naotool.svg" alt="license:MIT">
 </a>
 <a href="https://pypi.python.org/pypi/naotool">
