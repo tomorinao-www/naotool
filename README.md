@@ -51,5 +51,5 @@ def f():
 | module    | example         | description |
 | --------- | --------------- | ----------- |
 | img       | get_img()       | 图片相关    |
-| deco      | @deco.decorator | 装饰器      |
+| deco      | @deco.compat_arg_error | 装饰器      |
 | exception | NOException     | 异常        |
