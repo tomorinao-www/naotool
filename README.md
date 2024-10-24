@@ -12,7 +12,7 @@
 
 # naotool
 
-_✨ 🍬A packge of utils or tools keeps Python sweet. ✨_
+_✨ 🍬A packge of utils or tools keeps Python sweet. 让 py 保持甜甜的 ✨_
 
 <a href="./LICENSE">
   <img src="https://img.shields.io/github/license/tomorinao-www/naotool.svg" alt="license:MIT">
@@ -36,10 +36,20 @@ _✨ 🍬A packge of utils or tools keeps Python sweet. ✨_
 pip install naotool
 ```
 
+# 最佳实践
+
+```python
+from naotool import deco
+
+@deco.compat_arg_error
+def f():
+    pass
+```
+
 # tools
 
-| module    | description     |
-| --------- | --------------- |
-| img       | image operation |
-| decorator | @decorator      |
-| exception | error!          |
+| module    | example         | description |
+| --------- | --------------- | ----------- |
+| img       | get_img()       | 图片相关    |
+| deco      | @deco.decorator | 装饰器      |
+| exception | NOException     | 异常        |
