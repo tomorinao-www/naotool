@@ -1,56 +1,62 @@
-import httpx
 import os
 import asyncio
 from PIL import Image
 from io import BytesIO
+
+from httpx import AsyncClient
+
+from naotool.exception import ImageGetError
 
 
 async def get(links, client=None):
     pass
 
 
-async def download_image(client, url):
-    response = await client.get(url)
-    if response.status_code == 200:
-        return Image.open(BytesIO(response.content))
-    else:
-        log.error(f"下载失败: {url}")
-        raise Exception
-        return None
+async def download_image(client: AsyncClient, url: str):
+
+    try:
+        response = await client.get(url)
+        if response.status_code == 200:
+            return Image.open(BytesIO(response.content)).convert("RPGA")
+        raise ImageGetError(link=url)
+    except Exception:
+        raise
 
 
-def copy_local_image(local_path):
+async def open_local_img(local_path) -> Image.Image:
     return Image.open(local_path).convert("RPGA")
 
 
-async def process_link(client, link):
+async def process_link(client, link) -> Image.Image:
     if os.path.isfile(link):
-        return copy_local_image(link)
+        return await open_local_img(link)
     else:
         return await download_image(client, link)
 
 
-async def get_imgs(links: list[str], client: httpx.AsyncClient = None):
+async def get_img(
+    links: list[str] | str, client: AsyncClient = None
+) -> list[Image.Image]:
     """批量下载图片
 
     Args:
         links (list[str]): url list
-        client (httpx.AsyncClient, None): 自定义client，用于代理之类的. Defaults to None.
+        client (httpx.AsyncClient, None): 自定义client用于代理等等, 默认不使用代理.
 
     Returns:
         list: 图片列表
     """
     images = []
-
-    # 如果没有传入client，则创建一个新的
+    # 处理client
     if client is None:
-        client = httpx.AsyncClient()
+        client = AsyncClient(trust_env=False, proxies=None)
         need_close = True
     else:
         need_close = False
-
+    # 分类处理，批量还是单个
     try:
         if isinstance(links, str):
+
             image = await process_link(client, links)
             if image:
                 images.append(image)
@@ -65,14 +71,8 @@ async def get_imgs(links: list[str], client: httpx.AsyncClient = None):
     return images
 
 
-# 使用示例
-# 单张下载
-# images = asyncio.run(download_images('https://example.com/image.jpg'))
-
-# 批量下载
-# images = asyncio.run(download_images(['https://example.com/image1.jpg', 'path/to/local/image.jpg']))
-
 if __name__ == "__main__":
-
-    # 示例用法
-    print(__name__)  # 输出
+    images = asyncio.run(get_imgs()("https://example.com/image.jpg"))
+    images = asyncio.run(
+        get_imgs(["https://example.com/image1.jpg", "path/to/local/image.jpg"])
+    )
