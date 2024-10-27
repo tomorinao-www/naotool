@@ -2,13 +2,8 @@ import inspect
 from collections.abc import Callable
 from functools import wraps
 
-import logging
-from logging import Logger
 
-
-def compat_arg_error(
-    func: Callable = None, log: Logger = logging.getLogger()
-) -> Callable:
+def compat_arg_error(func: Callable = None) -> Callable:
     """这个装饰器使得函数在接收错误的参数时，仍然正常执行，消除异常。（但不保证完全正确）
     正常情况下，在调用函数时传入了错误参数，Python 会抛出 TypeError 异常。有2种情况：
     1.位置参数：如果你传入了超过函数定义的参数数量，或者传入了一个不接受的位置参数，Python 会报错。
@@ -16,7 +11,6 @@ def compat_arg_error(
 
     Args:
         func (Callable): 被装饰的函数
-        log (Logger): 日志
 
     Returns:
         Callable: 装饰后的函数
@@ -54,8 +48,9 @@ def compat_arg_error(
                     try:
                         args[i] = true_type(args[i])  # 尝试转换
                     except (TypeError, ValueError):
-                        log.warning(f"Warning: arg '{k}' need type{true_type}")
-                        raise
+                        raise TypeError.with_traceback(
+                            f"Warning: arg '{k}' need type{true_type}"
+                        )
 
         # 2.2.数量检查，减少多余参数
         position_param_nums = sum(
@@ -75,8 +70,7 @@ def compat_arg_error(
             bound_args = signature.bind_partial(*args, **filtered_kwargs)
             bound_args.apply_defaults()  # 应用默认值
         except TypeError as e:
-            log.warning(f"Bug detected! Please report this issue:\n{e}")
-            raise
+            raise TypeError(f"TypeError! Bug detected! Please report this issue:\n{e}")
         return func(*bound_args.args, **filtered_kwargs)
 
     return wrapper

@@ -1,4 +1,5 @@
 import asyncio
+from pathlib import Path
 from urllib.request import urlopen
 
 from PIL import Image
@@ -50,6 +51,10 @@ async def get_http(link: str, client: AutoCloseAsyncClient) -> Image.Image:
     return Image.open(BytesIO(res.content)).convert("RGBA")
 
 
+async def get_path(link: str, client: AutoCloseAsyncClient) -> Image.Image:
+    return Image.open(Path(link)).convert("RGBA")
+
+
 async def get_img(link: str, client: AutoCloseAsyncClient) -> Image.Image:
     """get一个图片"""
     try:
@@ -58,7 +63,7 @@ async def get_img(link: str, client: AutoCloseAsyncClient) -> Image.Image:
         elif link.startswith("file"):
             return await get_local(link)
         else:
-            raise ImageGetError(link)
+            raise await get_path(link)
     except ImageGetError:
         raise
     except Exception as e:
@@ -75,13 +80,15 @@ async def get_imgs(links: list[str], client: AutoCloseAsyncClient) -> list[Image
     return img_list
 
 
+async def test():
+    images = await get(
+        [
+            "https://avatars.githubusercontent.com/u/53679884",
+            "https://avatars.githubusercontent.com/u/53679884",
+        ]
+    )
+    return images
+
+
 if __name__ == "__main__":
-    # exp
-    images = asyncio.run("https://example.com/image1.jpg", "path/to/local/image.jpg")
-
-    async def test():
-        async with AutoCloseAsyncClient(proxy="http://114.5.1.4:1919") as client:
-            get("x.com", client=client)
-        return
-
-    img3 = asyncio.run(test())
+    images = asyncio.run(test())
