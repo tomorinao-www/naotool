@@ -44,6 +44,36 @@ from naotool import deco
 @deco.compat_arg_error
 def f():
     pass
+f(1, 2, 3, a=1)
+print("ok!")
+```
+
+```python
+""" 最佳实践，把一个文件夹内的 .jpg 都重命名为:{md5}.jpg"""
+import asyncio
+import os
+from pathlib import Path
+from PIL import Image
+from naotool.img.op import img_md5hex
+from naotool.img import get
+
+Image.MAX_IMAGE_PIXELS = None
+img_dir = Path(r"../../imgs/")
+img_name_list = filter(lambda x: x.endswith(".jpg"), os.listdir(str(img_dir)))
+path_list = [img_dir / name for name in img_name_list]
+
+async def main():
+    [
+        os.rename(
+            src,
+            os.path.join(
+                img_dir.absolute(),
+                f"{img_md5hex(await get(src))}.{os.path.splitext(src)[1]}",
+            ),
+        )
+        for src in path_list
+    ]
+asyncio.run(main())
 ```
 
 # tools

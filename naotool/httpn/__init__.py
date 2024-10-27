@@ -25,7 +25,7 @@ class AutoCloseAsyncClient(AsyncClient):
 
     async def _check_timeout(self):
         while self._running:
-            await asyncio.sleep(1)  # 每3秒检查一次
+            await asyncio.sleep(1)
             if time.monotonic() - self.last_action_time > self.auto_close_time:
                 await self.close()
 

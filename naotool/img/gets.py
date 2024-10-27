@@ -11,21 +11,22 @@ from naotool.httpn import AutoCloseAsyncClient
 
 
 # 最外层接口get，大一统接口
-async def get(links: str | list, client=None) -> Image.Image | list[Image.Image]:
+async def get(links: Path | str | list, client=None) -> Image.Image | list[Image.Image]:
     """下载单张图片、或批量图片
 
     Args:
-        links (list[str] | str): 链接列表, 或者链接str
+        links (Path | str | list): 链接列表, 或者链接str, Path
         client (AsyncClient, None): 用户可以自定义client用于代理、反爬等等, 默认不使用代理.
 
     Returns:
         Image.Image | list[Image.Image]: Image图片,or图片列表
     """
     # 1.统一处理为字符串列表
-    one = False
+    one = not isinstance(links, list)
     if isinstance(links, str):
         links = [links]
-        one = True
+    if isinstance(links, Path):
+        links = [str(links)]
     # 2.处理client
     async with AutoCloseAsyncClient() if not client else client as client:
         imgs = await get_imgs(links, client)
@@ -38,7 +39,7 @@ async def get_local(link: str) -> Image.Image:
         raise ImageGetError(link, f"\nget_local error.")
     with urlopen(link) as response:
         file_data = response.read()
-        return Image.open(BytesIO(file_data)).convert("RPG")
+        return Image.open(BytesIO(file_data)).convert("RGB")
 
 
 async def get_http(link: str, client: AutoCloseAsyncClient) -> Image.Image:
@@ -51,8 +52,8 @@ async def get_http(link: str, client: AutoCloseAsyncClient) -> Image.Image:
     return Image.open(BytesIO(res.content)).convert("RGB")
 
 
-async def get_path(link: str, client: AutoCloseAsyncClient) -> Image.Image:
-    return Image.open(Path(link)).convert("RGBA")
+async def get_path(link: str) -> Image.Image:
+    return Image.open(Path(link)).convert("RGB")
 
 
 async def get_img(link: str, client: AutoCloseAsyncClient) -> Image.Image:
@@ -63,7 +64,7 @@ async def get_img(link: str, client: AutoCloseAsyncClient) -> Image.Image:
         elif link.startswith("file"):
             return await get_local(link)
         else:
-            raise await get_path(link)
+            return await get_path(link)
     except ImageGetError:
         raise
     except Exception as e:
