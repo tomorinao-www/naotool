@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 
-from . import deco, imgzhe
+from . import deco, img
 
 if __name__ == "__main__":
 
