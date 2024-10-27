@@ -50,7 +50,7 @@ def f():
 
 | module    | example                                 | description                |
 | --------- | --------------------------------------- | -------------------------- |
-| img       | get()                                   | 图片                       |
+| img       | get()                                   | get 图片                   |
 | deco      | @deco.compat_arg_error()                | 装饰器                     |
 | httpn     | AutoCloseAsyncClient(auto_close_time=3) | 会话自动关闭，严格规范代理 |
 | exception | NOException                             | 自定义异常                 |
