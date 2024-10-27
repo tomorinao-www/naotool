@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "naotool"
-version = "0.1.6"
+version = "0.1.7"
 description = "A packge of utils or tools keeps Python sweet."
 authors = ["tomorinao-www <1520872279@qq.com>"]
 license = "MIT"
