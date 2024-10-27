@@ -42,7 +42,6 @@ class AutoCloseAsyncClient(AsyncClient):
 
     async def close(self):
         self._running = False
-        print(f"close{self}")
         await super().aclose()
 
     async def __aenter__(self):

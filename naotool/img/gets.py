@@ -1,5 +1,6 @@
 import asyncio
 from pathlib import Path
+from time import sleep
 from urllib.request import urlopen
 
 from PIL import Image
@@ -21,14 +22,13 @@ async def get(links: str | list, client=None) -> Image.Image | list[Image.Image]
         Image.Image | list[Image.Image]: Image图片,or图片列表
     """
     # 1.统一处理为字符串列表
+    one = False
     if isinstance(links, str):
         links = [links]
         one = True
-    else:
-        one = False
     # 2.处理client
-    client = AutoCloseAsyncClient() if not client else client
-    imgs = await get_imgs(links, client)
+    async with AutoCloseAsyncClient() if not client else client as client:
+        imgs = await get_imgs(links, client)
     return imgs[0] if one and imgs else imgs
 
 
@@ -38,7 +38,7 @@ async def get_local(link: str) -> Image.Image:
         raise ImageGetError(link, f"\nget_local error.")
     with urlopen(link) as response:
         file_data = response.read()
-        return Image.open(BytesIO(file_data)).convert("RPGA")
+        return Image.open(BytesIO(file_data)).convert("RPG")
 
 
 async def get_http(link: str, client: AutoCloseAsyncClient) -> Image.Image:
@@ -47,8 +47,8 @@ async def get_http(link: str, client: AutoCloseAsyncClient) -> Image.Image:
         raise ImageGetError(link, f"\nget_local error.")
     res = await client.get(link)
     if res.is_error:
-        raise ImageGetError(link, f"\nget_http error.", e)
-    return Image.open(BytesIO(res.content)).convert("RGBA")
+        raise ImageGetError(link, f"\nget_http error.")
+    return Image.open(BytesIO(res.content)).convert("RGB")
 
 
 async def get_path(link: str, client: AutoCloseAsyncClient) -> Image.Image:
@@ -87,7 +87,7 @@ async def test():
             "https://avatars.githubusercontent.com/u/53679884",
         ]
     )
-    return images
+    images[0].save("tmp.jpg", format="JPEG")
 
 
 if __name__ == "__main__":
