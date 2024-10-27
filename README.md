@@ -23,7 +23,10 @@ _✨ 🍬A packge of utils or tools keeps Python sweet. 让 py 保持甜甜的 �
 <a hred="https://www.python.org/">
   <img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="python:3.10+">
 </a>
-
+<a href="https://github.com/tomorinao-www/naotool">
+  <img src="https://img.shields.io/github/stars/tomorinao-www/naotool.svg?style=social">
+</a>
+ 
 </div>
 
 # naotool
