@@ -20,8 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-
-from . import deco, img
+# 导入常用模块
+from . import deco
+from .httpn import AutoCloseAsyncClient
 
 if __name__ == "__main__":
 
