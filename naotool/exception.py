@@ -6,7 +6,7 @@ class BaseError(Exception):
         super().__init__(message)
 
     def __str__(self) -> str:
-        return self.message if self.message else "An error occurred."
+        return self.message if self.message else "BaseError"
 
 
 class ImageGetError(BaseError):
@@ -24,3 +24,9 @@ class ImageGetError(BaseError):
 
     def __str__(self) -> str:
         return f"{self.message}. link={self.link}. {self.e}"
+
+
+class NOException(BaseError):
+    """没有异常"""
+
+    pass

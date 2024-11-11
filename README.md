@@ -79,9 +79,11 @@ asyncio.run(main())
 
 # tools
 
-| module    | example                                 | description                |
-| --------- | --------------------------------------- | -------------------------- |
-| img       | get()                                   | get 图片                   |
-| deco      | @deco.compat_arg_error()                | 装饰器                     |
-| httpn     | AutoCloseAsyncClient(auto_close_time=3) | 会话自动关闭，严格规范代理 |
-| exception | NOException                             | 自定义异常                 |
+| module    | example                                 | description        |
+| --------- | --------------------------------------- | ------------------ |
+| img       | get("http://img.png")                   | 图片               |
+| deco      | @deco.compat_arg_error()                | 装饰器             |
+| httpn     | AutoCloseAsyncClient(auto_close_time=3) | 更简洁的 http      |
+| cls       | copy_attr(a, b)                         | SpringBean (?)     |
+| strs      | tight("delete b l a n k char")          | 你的字符串有点松弛 |
+| exception | NOException                             | 没有异常           |
