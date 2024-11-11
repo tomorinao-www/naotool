@@ -1,6 +1,5 @@
 import asyncio
 from pathlib import Path
-from time import sleep
 from urllib.request import urlopen
 
 from PIL import Image
