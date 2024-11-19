@@ -1,7 +1,7 @@
 import asyncio
 import time
 
-from httpx import AsyncClient
+from httpx import AsyncClient, Response
 
 
 class AutoCloseAsyncClient(AsyncClient):
@@ -32,11 +32,15 @@ class AutoCloseAsyncClient(AsyncClient):
     async def _update_action_time(self):
         self.last_action_time = time.monotonic()
 
-    async def get(self, *args, **kwargs):
+    async def request(self, *args, **kwargs) -> Response:
+        await self._update_action_time()
+        return await super().request(*args, **kwargs)
+
+    async def get(self, *args, **kwargs) -> Response:
         await self._update_action_time()
         return await super().get(*args, **kwargs)
 
-    async def post(self, *args, **kwargs):
+    async def post(self, *args, **kwargs) -> Response:
         await self._update_action_time()
         return await super().post(*args, **kwargs)
 

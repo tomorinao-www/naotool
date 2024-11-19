@@ -86,6 +86,7 @@ asyncio.run(main())
 | httpn     | AutoCloseAsyncClient(auto_close_time=3) | 更简洁的 http      |
 | cls       | copy_attr(a, b)                         | SpringBean (?)     |
 | strs      | tight("delete b l a n k char")          | 你的字符串有点松弛 |
+| x         | AsyncClient().get_x()                   | 访问 x.com 的 api  |
 | exception | NOException                             | 没有异常           |
 
 # python 设计哲学

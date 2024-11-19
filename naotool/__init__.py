@@ -20,12 +20,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# 导入常用模块
-from . import deco
+from .__version__ import __description__, __title__, __version__
+from .cls import copy_attr
+from .deco import compat_arg_error
+from .img import get as img_get
 from .httpn import AutoCloseAsyncClient
+from .strs import tight
+from .exception import NOException
 
-if __name__ == "__main__":
+__all__ = [
+    "__description__",
+    "__title__",
+    "__version__",
+    "copy_attr",
+    "compat_arg_error",
+    "img_get",
+    "AutoCloseAsyncClient",
+    "tight",
+    "NOException",
+]
 
-    @deco.compat_arg_error
-    def f():
-        pass
+__locals = locals()
+for __name in __all__:
+    if not __name.startswith("__"):
+        setattr(__locals[__name], "__module__", "naotool")  # noqa

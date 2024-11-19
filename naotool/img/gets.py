@@ -9,8 +9,19 @@ from naotool.exception import ImageGetError
 from naotool.httpn import AutoCloseAsyncClient
 
 
+# 同步接口
+def run_get(
+    links: Path | str | list,
+    client=None,
+) -> Image.Image | list[Image.Image]:
+    return asyncio.run(get(links, client))
+
+
 # 最外层接口get，大一统接口
-async def get(links: Path | str | list, client=None) -> Image.Image | list[Image.Image]:
+async def get(
+    links: Path | str | list,
+    client=None,
+) -> Image.Image | list[Image.Image]:
     """下载单张图片、或批量图片
 
     Args:
@@ -35,7 +46,7 @@ async def get(links: Path | str | list, client=None) -> Image.Image | list[Image
 async def get_local(link: str) -> Image.Image:
     """打开本地图片"""
     if not link.startswith("file:"):
-        raise ImageGetError(link, f"\nget_local error.")
+        raise ImageGetError(link, "get_local error.")
     with urlopen(link) as response:
         file_data = response.read()
         return Image.open(BytesIO(file_data)).convert("RGB")
@@ -44,10 +55,10 @@ async def get_local(link: str) -> Image.Image:
 async def get_http(link: str, client: AutoCloseAsyncClient) -> Image.Image:
     """下载网络图片"""
     if not link.startswith("http"):
-        raise ImageGetError(link, f"\nget_local error.")
+        raise ImageGetError(link, "\nget_local error.")
     res = await client.get(link)
     if res.is_error:
-        raise ImageGetError(link, f"\nget_http error.")
+        raise ImageGetError(link, "\nget_http error.")
     return Image.open(BytesIO(res.content)).convert("RGB")
 
 
@@ -70,7 +81,10 @@ async def get_img(link: str, client: AutoCloseAsyncClient) -> Image.Image:
         raise ImageGetError(link, e=e)
 
 
-async def get_imgs(links: list[str], client: AutoCloseAsyncClient) -> list[Image.Image]:
+async def get_imgs(
+    links: list[str],
+    client: AutoCloseAsyncClient,
+) -> list[Image.Image]:
     """批量下载图片"""
     img_list = []
     # 并行
