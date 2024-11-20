@@ -22,7 +22,7 @@
 
 from .__version__ import __description__, __title__, __version__
 from .cls import copy_attr
-from .deco import compat_arg_error
+from .deco import compat_arg_error, fun_filter
 from .img import get as img_get
 from .httpn import AutoCloseAsyncClient
 from .strs import tight
@@ -34,6 +34,7 @@ __all__ = [
     "__version__",
     "copy_attr",
     "compat_arg_error",
+    "fun_filter",
     "img_get",
     "AutoCloseAsyncClient",
     "tight",
