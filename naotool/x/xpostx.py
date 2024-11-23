@@ -5,7 +5,6 @@ import json
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
 
-import platform
 from PIL import Image
 from playwright.async_api import async_playwright
 from playwright.async_api._generated import Page, Locator
@@ -48,13 +47,7 @@ class Xpost:
         self.date_time = date_time
         self.screenshot = screenshot
 
-    def __str__(self) -> str:
-        dic = {}
-        for k, v in self.__dict__.items():
-            if v.__sizeof__() > 500:
-                dic[k] = str(v)[:50] + str(v)[-50:]
-            else:
-                dic[k] = v
+    def jsons(self, dic: dict, indent: int = 2) -> str:
         return json.dumps(
             obj=dic,
             indent=4,
@@ -66,20 +59,17 @@ class Xpost:
             ),
         )
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         dic = {}
         for k, v in self.__dict__.items():
-            dic[k] = v
-        return json.dumps(
-            obj=dic,
-            indent=0,
-            ensure_ascii=False,
-            default=lambda x: (
-                x.strftime("%Y-%m-%d %H:%M:%S %Z")
-                if isinstance(x, datetime)
-                else str(x)
-            ),
-        )
+            if v.__sizeof__() > 500:
+                dic[k] = str(v)[:50] + str(v)[-50:]
+            else:
+                dic[k] = v
+        return self.jsons(dic)
+
+    def __repr__(self) -> str:
+        return self.jsons(self.__dict__, indent=0)
 
 
 async def get_xposts(
@@ -97,6 +87,8 @@ async def get_xposts(
     """return Xposts list, sorted from old to new.
 
     Args:
+        user_data_dir (str | Path):
+            browser's user data directory
         sub_ids (str):
             subscription id list. (note: not name.)
         limit (int, optional):
@@ -110,7 +102,8 @@ async def get_xposts(
         wait_time (int):
             general wait time.
             `asyncio.sleep(wait_time)`
-
+        **playwright_args:
+            playwright kwargs
     Returns:
         list[Xpost]: Xpost list.
     """
