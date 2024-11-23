@@ -8,6 +8,8 @@ from io import BytesIO
 from naotool.exception import ImageGetError
 from naotool.httpn import AutoCloseAsyncClient
 
+Image.MAX_IMAGE_PIXELS = None
+
 
 # 同步接口
 def run_get_imgs(
