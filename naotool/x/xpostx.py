@@ -104,6 +104,7 @@ async def get_xposts(
             `asyncio.sleep(wait_time)`
         **playwright_args:
             playwright kwargs
+
     Returns:
         list[Xpost]: Xpost list.
     """
@@ -113,15 +114,6 @@ async def get_xposts(
         # 0.init
         browser_context = await ap.chromium.launch_persistent_context(
             user_data_dir=user_data_dir,
-            ignore_default_args=["--enable-automation"],
-            args=[
-                "--disable-infobans",
-                "--disable-blink-features=Automationcontrolled",
-                "--disable-gpu",
-                "--no-sandbox",
-                "--disable-web-security",
-                "--disable-extensions",
-            ],
             **playwright_args,
         )
         page = await browser_context.new_page()
@@ -282,5 +274,10 @@ def extract_trailing_numbers(s) -> str:
 
 
 if __name__ == "__main__":
-    xposts = asyncio.run(get_xposts(["home"], limit=6))
+    xposts = asyncio.run(
+        get_xposts(
+            user_data_dir=r"E:\lib\user_data",
+            headless=False,
+        )
+    )
     print(xposts)
