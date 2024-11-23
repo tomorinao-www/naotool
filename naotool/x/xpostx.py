@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
 
+import platform
 from PIL import Image
 from playwright.async_api import async_playwright
 from playwright.async_api._generated import Page, Locator
@@ -66,8 +67,11 @@ class Xpost:
         )
 
     def __repr__(self) -> str:
+        dic = {}
+        for k, v in self.__dict__.items():
+            dic[k] = v
         return json.dumps(
-            {k: v for k, v in self.__dict__.items() if not v.__sizeof__() > 500},
+            obj=dic,
             indent=0,
             ensure_ascii=False,
             default=lambda x: (
@@ -79,6 +83,8 @@ class Xpost:
 
 
 async def get_xposts(
+    user_data_dir: str | Path,
+    *,
     sub_ids: list[str] = ["home"],
     limit: int = 3,
     last_time: float = 0.0,
@@ -86,6 +92,7 @@ async def get_xposts(
     recommend: bool = False,
     local_timezone: timezone = timezone(timedelta(hours=8)),
     wait_time: int = 3,
+    **playwright_args,
 ) -> list[Xpost]:
     """return Xposts list, sorted from old to new.
 
@@ -112,8 +119,7 @@ async def get_xposts(
     async with async_playwright() as ap:
         # 0.init
         browser_context = await ap.chromium.launch_persistent_context(
-            headless=False,
-            user_data_dir=r"E:\lib\User Data",
+            user_data_dir=user_data_dir,
             ignore_default_args=["--enable-automation"],
             args=[
                 "--disable-infobans",
@@ -123,6 +129,7 @@ async def get_xposts(
                 "--disable-web-security",
                 "--disable-extensions",
             ],
+            **playwright_args,
         )
         page = await browser_context.new_page()
         res = []
