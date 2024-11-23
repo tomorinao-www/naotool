@@ -1,7 +1,7 @@
 <div align="center">
   <a href="https://github.com/tomorinao-www">
-    <img src="https://avatars.githubusercontent.com/u/53679884" 
-    width="300" alt="NaoLogo" 
+    <img src="https://www.python.org/static/img/python-logo@2x.png" 
+    width=" " alt="naotool for python" 
     style="border-radius: 50%; object-fit: cover;">
   </a>
   <br>
