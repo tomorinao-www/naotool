@@ -81,12 +81,12 @@ asyncio.run(main())
 
 | module    | example                                 | description        |
 | --------- | --------------------------------------- | ------------------ |
-| img       | get("http://img.png")                   | 图片               |
-| deco      | @deco.compat_arg_error()                | 装饰器             |
-| httpn     | AutoCloseAsyncClient(auto_close_time=3) | 更简洁的 http      |
 | cls       | copy_attr(a, b)                         | SpringBean (?)     |
+| deco      | @compat_arg_error()                     | 装饰器             |
+| httpn     | AutoCloseAsyncClient(auto_close_time=3) | 更简洁的 http      |
+| img       | get_imgs(["http://img.png"])            | 图片               |
 | strs      | tight("delete b l a n k char")          | 你的字符串有点松弛 |
-| x         | AsyncClient().get_x()                   | 访问 x.com 的 api  |
+| x         | get_xposts()                            | 获取 x.com 的 文章 |
 | exception | NOException                             | 没有异常           |
 
 # python 设计哲学

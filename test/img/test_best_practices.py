@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 from PIL import Image
 from naotool.img.op import img_md5hex
-from naotool.img import get
+from naotool.img import _get_imgs
 
 Image.MAX_IMAGE_PIXELS = None
 img_dir = Path(r"../../imgs/")
@@ -13,7 +13,7 @@ path_list = [img_dir / name for name in img_name_list]
 
 async def rename_image(src: Path):
     try:
-        md5 = img_md5hex(await get(str(src)))
+        md5 = img_md5hex(await _get_imgs(str(src)))
         new_path = img_dir / f"{md5}{src.suffix}"
         os.rename(src, new_path)
     except Exception as e:

@@ -10,19 +10,19 @@ from naotool.httpn import AutoCloseAsyncClient
 
 
 # 同步接口
-def run_get(
+def run_get_imgs(
     links: Path | str | list,
     client=None,
 ) -> Image.Image | list[Image.Image]:
-    return asyncio.run(get(links, client))
+    return asyncio.run(get_imgs(links, client))
 
 
 # 最外层接口get，大一统接口
-async def get(
+async def get_imgs(
     links: Path | str | list,
     client=None,
 ) -> Image.Image | list[Image.Image]:
-    """下载单张图片、或批量图片
+    """下载网络图片、打开本地图片
 
     Args:
         links (Path | str | list): 链接列表, 或者链接str, Path
@@ -39,7 +39,7 @@ async def get(
         links = [str(links)]
     # 2.处理client
     async with AutoCloseAsyncClient() if not client else client as client:
-        imgs = await get_imgs(links, client)
+        imgs = await _get_imgs(links, client)
     return imgs[0] if one and imgs else imgs
 
 
@@ -63,7 +63,8 @@ async def get_http(link: str, client: AutoCloseAsyncClient) -> Image.Image:
 
 
 async def get_path(link: str) -> Image.Image:
-    return Image.open(Path(link)).convert("RGB")
+    """打开本地图片"""
+    return Image.open(link).convert("RGB")
 
 
 async def get_img(link: str, client: AutoCloseAsyncClient) -> Image.Image:
@@ -81,7 +82,7 @@ async def get_img(link: str, client: AutoCloseAsyncClient) -> Image.Image:
         raise ImageGetError(link, e=e)
 
 
-async def get_imgs(
+async def _get_imgs(
     links: list[str],
     client: AutoCloseAsyncClient,
 ) -> list[Image.Image]:
@@ -95,7 +96,7 @@ async def get_imgs(
 
 
 async def test():
-    images = await get(
+    images = await get_imgs(
         [
             "https://avatars.githubusercontent.com/u/53679884",
             "https://avatars.githubusercontent.com/u/53679884",

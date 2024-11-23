@@ -7,12 +7,14 @@ def fun_filter(
     other: object = None,
     ext_func: Callable = None,
 ) -> Callable:
-    """这个装饰器接收一个函数func用于判断入参x是否要过滤,
+    """这个装饰器接收一个函数func用于判断入参x是否要过滤
 
     返回一个函数:
-    仍然接收一个变量x,
-    如果func(x)==True 返回x;
-    否则返回other, 或者ext_func(x)
+
+        if func(x): return x
+        elif ext_func: return ext_func(x)
+        else: return other
+
     注意：这个函数并不过滤集合的元素，只能处理单个变量
 
     Args:
@@ -34,11 +36,10 @@ def fun_filter(
         x = args[0]
         if func(*args, **kwargs):
             return x
+        elif ext_func:
+            return ext_func(x)
         else:
-            if ext_func:
-                return ext_func(x)
-            else:
-                return other
+            return other
 
     return wrapper
 

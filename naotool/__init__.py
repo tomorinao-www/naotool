@@ -23,23 +23,48 @@
 from .__version__ import __description__, __title__, __version__
 from .cls import copy_attr
 from .deco import compat_arg_error, fun_filter
-from .img import get as img_get
 from .httpn import AutoCloseAsyncClient
+from .img import (
+    run_get_imgs,
+    get_imgs,
+    img_md5hex,
+    add_top_border,
+    remove_bottom_border,
+    crop_to_max_height,
+)
 from .strs import tight
-from .exception import NOException
+from .x import Xpost, get_xposts
+from .exception import BaseError, NOException
 
 __all__ = [
+    # Package metadata
     "__description__",
     "__title__",
     "__version__",
+    # cls
     "copy_attr",
+    # deco
     "compat_arg_error",
     "fun_filter",
-    "img_get",
+    # img
+    "run_get_imgs",
+    "get_imgs",
+    "img_md5hex",
+    "add_top_border",
+    "remove_bottom_border",
+    "crop_to_max_height",
+    # httpn
     "AutoCloseAsyncClient",
+    # strs
     "tight",
+    # exception
+    "BaseError",
     "NOException",
+    # Xpost utilities
+    "Xpost",
+    "get_xposts",
 ]
+
 
 __locals = locals()
 for __name in __all__:
