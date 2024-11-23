@@ -198,7 +198,7 @@ async def _get_sub_posts(
             )
         await sub_tab.click()
     # 2.page down
-    for _ in range(limit):
+    for _ in range(2):
         await page.keyboard.press("PageDown")
         await asyncio.sleep(wait_time)  # 给页面加载时间
     # 3.get Locator by xpath
