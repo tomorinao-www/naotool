@@ -22,7 +22,7 @@
 
 from .__version__ import __description__, __title__, __version__
 from .cls import copy_attr
-from .deco import compat_arg_error, fun_filter
+from .deco import decodeco, compat_arg_error, fun_filter
 from .httpn import AutoCloseAsyncClient
 from .img import (
     run_get_imgs,
@@ -44,6 +44,7 @@ __all__ = [
     # cls
     "copy_attr",
     # deco
+    "decodeco",
     "compat_arg_error",
     "fun_filter",
     # img
