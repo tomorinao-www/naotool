@@ -55,21 +55,19 @@ def decodeco(
     return wrapwrap
 
 
-# 示例用法
-@decodeco(arg_func_name="func")
-def deco_exp(func: Callable, func_args, func_kwargs) -> Callable:
-    print("before the real function")
-    res = func(*func_args, **func_kwargs)
-    print("after the real function")
-    return res
-
-
-@deco_exp
-def test(a, b=2):
-    print("test")
-    print(f"a={a}")
-    print(f"b={b}")
-
-
 if __name__ == "__main__":
+    # 示例用法
+    @decodeco(arg_func_name="func")
+    def deco_exp(func: Callable, func_args, func_kwargs) -> Callable:
+        print("before the real function")
+        res = func(*func_args, **func_kwargs)
+        print("after the real function")
+        return res
+
+    @deco_exp
+    def test(a, b=2):
+        print("test")
+        print(f"a={a}")
+        print(f"b={b}")
+
     test(6)
