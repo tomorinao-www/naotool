@@ -1,11 +1,14 @@
-from functools import wraps
 from typing import Callable
+from .deco import decodeco
 
 
+@decodeco
 def fun_filter(
     func: Callable = None,
     other: object = None,
     ext_func: Callable = None,
+    func_args: tuple = None,
+    func_kwargs: dict = None,
 ) -> Callable:
     """这个装饰器接收一个函数func用于判断入参x是否要过滤
 
@@ -28,20 +31,13 @@ def fun_filter(
         Callable: 装饰后的函数
     """
 
-    if func is None:
-        return lambda f: fun_filter(f, other, ext_func)
-
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        x = args[0]
-        if func(*args, **kwargs):
-            return x
-        elif ext_func:
-            return ext_func(x)
-        else:
-            return other
-
-    return wrapper
+    x = func_args[0]
+    if func(*func_args, **func_kwargs):
+        return x
+    elif ext_func:
+        return ext_func(x)
+    else:
+        return other
 
 
 if __name__ == "__main__":
