@@ -1,6 +1,10 @@
 from collections.abc import Callable
 from functools import wraps
 
+__all__ = [
+    "decodeco",
+]
+
 
 def decodeco(
     func_deco: Callable[..., Callable] = None,
