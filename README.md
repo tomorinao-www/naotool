@@ -82,7 +82,7 @@ asyncio.run(main())
 | module    | example                                 | description        |
 | --------- | --------------------------------------- | ------------------ |
 | cls       | copy_attr(a, b)                         | SpringBean (?)     |
-| deco      | @compat_arg_error()                     | 装饰器             |
+| deco      | @decodeco()                             | 装饰装饰器？       |
 | httpn     | AutoCloseAsyncClient(auto_close_time=3) | 更简洁的 http      |
 | img       | get_imgs(["http://img.png"])            | 图片               |
 | strs      | tight("delete b l a n k char")          | 你的字符串有点松弛 |

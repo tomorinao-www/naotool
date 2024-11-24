@@ -11,12 +11,9 @@ on:
   push:
     tags:
       - v*
-    branches:
-      - main
-
   release:
     types:
-      - publish
+      - "released"
 
 jobs:
   deploy:
