@@ -1,7 +1,7 @@
 <div align="center">
   <a href="https://github.com/tomorinao-www">
     <img src="./imgs/logo-circle.svg" 
-      height="400px" width="400px"
+      height="300px" width="300px"
       alt="naotool" >
   </a>
   <br>
