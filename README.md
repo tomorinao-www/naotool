@@ -1,8 +1,14 @@
 <div align="center">
   <a href="https://github.com/tomorinao-www">
-    <img src="https://www.python.org/static/img/python-logo@2x.png" 
-    width=" " alt="naotool for python" 
-    style="border-radius: 50%; object-fit: cover;">
+    <img src="./imgs/logo-circle.svg" 
+      height="400px" width="400px"
+      alt="naotool" >
+  </a>
+  <br>
+  <a href="https://github.com/tomorinao-www">
+    <img src="./imgs/logo-square.svg" 
+      height="" width="400px"
+      alt="naotool" >
   </a>
   <br>
 
