@@ -1,3 +1,4 @@
+import re
 from typing import Callable
 
 from naotool.deco.funtool import fun_filter
@@ -41,6 +42,11 @@ def tight(
             )
         )
     raise TypeError(s1, "only support type str, list[str]")
+
+
+def extract_trailing_numbers(s) -> str:
+    match = re.search(r"(\d+)$", s)
+    return match.group(1) if match else 0
 
 
 if __name__ == "__main__":
