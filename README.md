@@ -24,10 +24,10 @@ _✨ 🍬A packge of utils or tools keeps Python sweet. 让 py 保持甜甜的 �
   <img src="https://img.shields.io/github/license/tomorinao-www/naotool.svg" alt="license:MIT">
 </a>
 <a href="https://pypi.python.org/pypi/naotool">
-  <img src="https://img.shields.io/pypi/v/naotool.svg" alt="pypi">
+  <img src="https://img.shields.io/pypi/v/naotool.svg?style=flat&logo=pypi&logoColor=fff&labelColor=3775A9" alt="pypi">
 </a>
 <a hred="https://www.python.org/">
-  <img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="python:3.10+">
+  <img src="https://img.shields.io/badge/Python-3.10+-f09?style=flat&logo=Python&logoColor=fc5&labelColor=3776AB" alt="Python">
 </a>
 <a href="https://github.com/tomorinao-www/naotool">
   <img src="https://img.shields.io/github/stars/tomorinao-www/naotool.svg?style=social">
