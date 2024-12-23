@@ -1,7 +1,8 @@
-from naotool.deco import compat_arg_error
+import naotool.deco as deco
 
 
-@compat_arg_error
+@deco.decodeco  # Directly call the decorator from root module `nt.`
+@deco.compat_arg_error  # Use a submodule(`.deco`) to improve readability and make IDE's syntax prompts more precise
 def f():
     pass
 
