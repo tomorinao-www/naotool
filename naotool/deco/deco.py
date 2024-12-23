@@ -32,6 +32,7 @@ def decodeco(
 
     @wraps(func_deco)
     def wrapwrap(*deco_args, **deco_kwargs):
+        func = None
         if deco_args and isinstance(deco_args[0], Callable):  # 如果第一个参数是可调用的
             func = deco_args[0]
         if (f := deco_kwargs.get(arg_func_name)) and isinstance(
