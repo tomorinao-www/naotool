@@ -9,7 +9,7 @@ from PIL import Image
 from playwright.async_api import async_playwright
 from playwright.async_api._generated import Page, Locator
 
-from ..img.op import crop_to_max_height, add_top_border
+from naotool.img.op import crop_to_max_height, add_top_border
 
 __all__ = [
     "Xpost",
@@ -174,11 +174,9 @@ async def _get_sub_posts(
         list[Xpost]: Xpost list.
     """
     # 1.goto
-    wait_time = wait_time / 2
     await page.goto(f"https://x.com/{sub_id}")
-    await asyncio.sleep(wait_time)
     await page.wait_for_load_state()
-    await asyncio.sleep(wait_time)
+    await asyncio.sleep(wait_time)  # 给页面加载时间
     if sub_id == "home":
         if recommend:
             sub_tab = page.locator(
@@ -193,9 +191,8 @@ async def _get_sub_posts(
         await sub_tab.click()
     # 2.page down
     for _ in range(2):
-        await asyncio.sleep(wait_time)
         await page.keyboard.press("PageDown")
-        await asyncio.sleep(wait_time)
+        await asyncio.sleep(wait_time)  # 给页面加载时间
     # 3.get Locator by xpath
     time_loc = page.locator("xpath=//time")
     # 4.for url list
@@ -217,9 +214,8 @@ async def _get_sub_posts(
         # start
         xp.sub_id = sub_id
         await t.click()
-        await asyncio.sleep(wait_time)
-        await page.wait_for_load_state()
-        await asyncio.sleep(wait_time)
+        await page.wait_for_load_state()  # wait
+        await asyncio.sleep(wait_time)  # wait
         xp.url = page.url
         xp.id = extract_trailing_numbers(xp.url)
         # screenshot

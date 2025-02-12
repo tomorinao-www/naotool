@@ -40,17 +40,24 @@ def compat_arg_error(
             }
         )
     }
+
     # 2.位置参数
+    func_args_list = list(func_args)
     # 2.1.类型检查，自动类型转换
     for i, (k, v) in enumerate(params.items()):
-        if i < len(func_args):
-            true_type = v.annotation
-            if true_type is not Parameter.empty:
-                try:
-                    func_args[i] = true_type(func_args[i])  # 尝试转换
-                except (TypeError, ValueError):
-                    raise TypeError(f"Warning: arg '{k}' need type{true_type}")
-
+        if i >= len(func_args):
+            break
+        true_type = v.annotation
+        if true_type is Parameter.empty:
+            break
+        try:
+            func_args_list[i] = true_type(func_args[i])  # 尝试转换
+        except (TypeError, ValueError) as e:
+            raise TypeError(
+                f"Warning: argument '{k}' needs type {true_type}, "
+                f"but got value {func_args[i]} ({type(func_args[i])}). "
+                f"Original error: {e}"
+            ) from e
     # 2.2.数量检查，减少多余参数
     position_param_nums = sum(
         1
@@ -60,17 +67,18 @@ def compat_arg_error(
             Parameter.POSITIONAL_ONLY,
             Parameter.POSITIONAL_OR_KEYWORD,
         }
+        and p.name not in filtered_kwargs
     )
-    if len(func_args) > position_param_nums:
-        func_args = func_args[:position_param_nums]
+    if len(func_args_list) > position_param_nums:
+        func_args_list = func_args_list[:position_param_nums]
 
     # 3.正确性检验
     try:
-        bound_args = signature.bind_partial(*func_args, **filtered_kwargs)
-        bound_args.apply_defaults()  # 应用默认值
+        bound_args = signature.bind(*func_args_list, **filtered_kwargs)
+        bound_args.apply_defaults()
     except TypeError as e:
-        raise TypeError(f"TypeError! Please report this Bug:\n{e}")
-    return func(*bound_args.args, **filtered_kwargs)
+        raise TypeError("Please report this bug!") from e
+    return func(*func_args_list, **filtered_kwargs)
 
 
 if __name__ == "__main__":

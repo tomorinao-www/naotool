@@ -40,7 +40,7 @@ def decodeco(
         ):  # kwargs中 func=xxx 优先级更高
             func = f
         if not func:
-            return lambda f: func_deco(f, *deco_args, **deco_kwargs)
+            return lambda f: wrapwrap(f, *deco_args, **deco_kwargs)
 
         # func就是真正要包装的函数了，这里我们不执行他，而是执行装饰器函数
 
