@@ -44,6 +44,7 @@ def compat_arg_error(
     # 2.位置参数
     func_args_list = list(func_args)
     # 2.1.类型检查，自动类型转换
+    # TODO: 完善类型检查，增加参数供调用方选择，默认不再自动类型转换
     for i, (k, v) in enumerate(params.items()):
         if i >= len(func_args):
             break
