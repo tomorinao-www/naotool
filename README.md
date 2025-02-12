@@ -48,9 +48,10 @@ pip install naotool
 # 最佳实践
 
 ```python
-from naotool import deco
+import naotool as nt
 
-@deco.compat_arg_error
+@nt.decodeco  # 使用根模块：用 `nt.` 直接调用
+@nt.deco.compat_arg_error  # 使用子模块：提高代码可读性；便于 IDE 提供更精确的语法提示
 def f():
     pass
 f(1, 2, 3, a=1)
@@ -58,13 +59,12 @@ print("ok!")
 ```
 
 ```python
-""" 最佳实践，把一个文件夹内的 .jpg 都重命名为:{md5}.jpg"""
+# 脚本任务: 修改 `.jpg` 图片的文件名为 `{md5}.jpg`
 import asyncio
 import os
 from pathlib import Path
 from PIL import Image
-from naotool.img.op import img_md5hex
-from naotool.img import get
+import naotool as nt
 
 Image.MAX_IMAGE_PIXELS = None
 img_dir = Path(r"../../imgs/")
@@ -73,7 +73,7 @@ path_list = [img_dir / name for name in img_name_list]
 
 async def rename_image(src: Path):
     try:
-        md5 = img_md5hex(await get(str(src)))
+        md5 = nt.img_md5hex(await get_imgs(str(src)))
         new_path = img_dir / f"{md5}{src.suffix}"
         os.rename(src, new_path)
     except Exception as e:
@@ -97,10 +97,10 @@ asyncio.run(main())
 
 # python 设计哲学
 
-- 需求至上原则
-- 最小重复原则
-- 向后兼容原则
-- 数学哲学美学
+- 需求至上原则 - demand is God
+- 最小重复原则 - DRY 准则 - don't repeat yourself
+- 向后兼容原则 - the latest version, for the oldest code
+- 数学哲学美学 - Mathematical Philosophy Aesthetics
 
 ```py
 >>> import this
